@@ -1,0 +1,56 @@
+# -*- coding: utf-8 -*-
+from httplib import UNSUPPORTED_MEDIA_TYPE
+
+from flask import request, jsonify
+from werkzeug.datastructures import MIMEAccept
+from werkzeug.exceptions import abort
+from werkzeug.http import parse_accept_header
+
+from krump.support.collections import has_elements
+
+
+class SimpleJsonResponsifier(object):
+    """
+    Create a C{Response} by rendering the model directly to JSON.
+    """
+
+    # noinspection PyUnusedLocal,PyMethodMayBeStatic
+    def responsify(self, *args, **kwargs):
+        view_model = args[0]
+        return jsonify(**view_model)
+
+
+class ContentNegotiatingResponsifier(object):
+    def responsify(self, *args, **kwargs):
+        content_type = self.best_content_type(request.headers['Accept'])
+        responsifier = self.find_responsifier_for(content_type)
+
+        if responsifier:
+            return responsifier.responsify(*args, **kwargs)
+        else:
+            abort(UNSUPPORTED_MEDIA_TYPE)
+
+    # noinspection PyMethodMayBeStatic
+    def best_content_type(self, accept_header):
+        accepts = parse_accept_header(accept_header, cls=MIMEAccept)
+        return accepts.best
+
+    JSON_CONTENT_TYPE = ('application/json', 'text/javascript')
+    HTML_CONTENT_TYPE = (
+        'text/html', 'application/xhtml+xml', 'application/xhtml+xml')
+
+    def find_responsifier_for(self, best_type):
+        responsifier = None
+        if best_type in self.HTML_CONTENT_TYPE:
+            responsifier = self.responsifiers['html']
+        elif best_type in self.JSON_CONTENT_TYPE:
+            responsifier = self.responsifiers['json']
+        elif best_type == 'text/plain':
+            responsifier = self.responsifiers['json']
+        return responsifier
+
+    def __init__(self, responsifiers):
+        super(ContentNegotiatingResponsifier, self).__init__()
+
+        assert has_elements(responsifiers), 'The responsifiers are required.'
+        self.responsifiers = dict(responsifiers)
