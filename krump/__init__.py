@@ -5,19 +5,23 @@ from functools import wraps
 
 from krump.support import factory
 from krump.support.web import *
-from krump.support.web.responsifiers import *
+from krump.support.web.responsifiers import ContentNegotiatingResponsifier, \
+    SimpleJsonResponsifier
+
+STRICT_SLASHES = 'strict_slashes'
 
 _logger = logging.getLogger(__name__)
 
 
 def create_app(settings_override=None):
     app = factory.create_app(__name__, __path__, settings_override)
-    initialise_web(app)
+    app.responsifier = ContentNegotiatingResponsifier(
+        dict(json=SimpleJsonResponsifier()))
     return app
 
 
 def route(blueprint, *args, **kwargs):
-    kwargs['strict_slashes'] = kwargs.get('strict_slashes', False)
+    kwargs[STRICT_SLASHES] = kwargs.get(STRICT_SLASHES, False)
 
     def decorator(f):
         @blueprint.route(*args, **kwargs)
@@ -29,8 +33,3 @@ def route(blueprint, *args, **kwargs):
         return wrapper
 
     return decorator
-
-
-def initialise_web(app):
-    responsifiers = dict(json=SimpleJsonResponsifier())
-    app.responsifier = ContentNegotiatingResponsifier(responsifiers)

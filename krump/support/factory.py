@@ -17,7 +17,7 @@ def create_app(package_name, package_path, settings_override=None,
     Create a L{flask.Flask} application with common configuration applied.
 
     @param package_name: application package name.
-    @param package_path: package path to search for blueporints.
+    @param package_path: package path to search for blueprints.
     @param settings: the settings per environment in YAML.
     @param settings_override: a dictionary of settings to override.
     @return: the Flask application; never C{None}.

@@ -8,7 +8,7 @@ from httplib import OK
 from flask import request, current_app
 from werkzeug.wrappers import Response
 
-from krump.support import CodedError, KrumpException
+from krump.support import KrumpException
 from krump.support.strings import is_stringy, has_text
 
 HEADER_LOCATION = 'Location'
@@ -22,8 +22,6 @@ METHOD_DELETE = 'DELETE'
 METHOD_OPTIONS = 'OPTIONS'
 
 CONTENT_TYPE_APPLICATION_JSON = 'application/json'
-
-ERROR_BAD_REPRESENTATION = CodedError(100, message='The representation is bad.')
 
 
 # noinspection PyUnusedLocal
@@ -43,45 +41,6 @@ def current_environment(app=current_app):
     """
 
     return app.config.get('ENVIORNMENT', 'DEVELOPMENT')  # typo intentional
-
-
-def set_response_header(response, key, value):
-    """
-    Set the C{key} header of the C{response} to the supplied C{value}.
-
-    @param response: the C{Response}.
-    @param key: the header name.
-    @param value: the header value.
-    @return: the C{response}, for chaining.
-    """
-
-    response.headers[key] = value
-    return response
-
-
-def set_header_location(response, location):
-    """
-    Set the C{Location} header of the C{response} to the supplied C{location}.
-
-    @param response: the C{Response}.
-    @param location: the location.
-    @return: the C{response}, for chaining.
-    """
-
-    return set_response_header(response, HEADER_LOCATION, location)
-
-
-def set_header_content_type(response, content_type):
-    """
-    Set the C{Content-Type} header of the C{response} to the supplied C{
-    content_type}.
-
-    @param response: the C{Response}.
-    @param content_type: the content-type.
-    @return: the C{response}, for chaining.
-    """
-
-    return set_response_header(response, HEADER_CONTENT_TYPE, content_type)
 
 
 def respond(response_data, *args, **kwargs):
