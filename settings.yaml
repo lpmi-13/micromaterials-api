@@ -9,11 +9,18 @@ COMMON: &common
   LOG_BASE_DIR: 'logs'
   JINJA2_CACHE_SIZE: 50
 
+  MONGO_URL: 'mongodb://localhost:27017/'
+  MONGO_CONNECT_EAGERLY: true
+  MONGO_DB: 'test'
+  MONGO_COLLECTION_SENTENCES: 'reddit'
+
   MOUNT_POINT: '/api'
 
 DEVELOPMENT: &development
   <<: *common
   DEBUG: true
+
+  MONGO_DB: 'test'
 
   # don't cache compiled templates: means we can edit on the fly during development
   JINJA2_CACHE_SIZE: 0
@@ -21,9 +28,13 @@ DEVELOPMENT: &development
 TEST: &test
   <<: *common
 
+  MONGO_DB: 'krump_test'
+
   TESTING: true
 
 PRODUCTION: &production
   <<: *common
+
+  MONGO_DB: 'krump_prod'
 
   JSONIFY_PRETTYPRINT_REGULAR: false

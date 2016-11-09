@@ -33,3 +33,10 @@ def route(blueprint, *args, **kwargs):
         return wrapper
 
     return decorator
+
+
+def required_value(config, key):
+    value = config.get(key, None)
+    if value is None:
+        raise Exception('No value for [{}]; check your configuration.'.format(key))
+    return value
