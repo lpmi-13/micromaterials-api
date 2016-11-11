@@ -3,14 +3,11 @@
 from flask import current_app
 
 from krump import required_value
+from krump.support.collections import pluck
 
 
 def get_sentences(request):
     return list(map(pluck('sentence'), sentences().find().limit(request['count'])))
-
-
-def pluck(field):
-    return lambda s: s[field]
 
 
 def sentences():
