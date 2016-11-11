@@ -22,6 +22,11 @@ def request_for_one_sentence(context, feature):
     context.response = context.sentence_api.get_sentences(feature, count=1)
 
 
+@when("we request sentences with the '(?P<feature>.+?)' feature and a maximum of (?P<max_words>\d+?) words")
+def request_for_sentences_with_maximum_words(context, feature, max_words):
+    context.response = context.sentence_api.get_sentences(feature, max_words=max_words)
+
+
 @then("these sentences are returned")
 def these_sentences_are_returned(context):
     assert_status_code_ok(context.response)

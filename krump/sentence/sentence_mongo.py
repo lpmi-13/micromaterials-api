@@ -7,7 +7,13 @@ from krump.support.collections import pluck
 
 
 def get_sentences(request):
-    return list(map(pluck('sentence'), sentences().find().limit(request['count'])))
+    query = {}
+
+    maximum_words = request.get('maximum_words', None)
+    if maximum_words is not None:
+        query['$where'] = 'this.words.length <= {}'.format(maximum_words)
+
+    return list(map(pluck('sentence'), sentences().find(query).limit(request['count'])))
 
 
 def sentences():
