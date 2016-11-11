@@ -15,6 +15,14 @@ $ python wsgi.py
 
 # Running The Tests
 
+Unit tests:
+
 ```bash
 $ nosetests
+```
+
+Functional tests:
+
+```bash
+$ behave
 ```
