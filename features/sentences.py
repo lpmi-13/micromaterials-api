@@ -6,22 +6,30 @@ from hamcrest import *
 from uritemplate import URITemplate
 from werkzeug.datastructures import Headers
 
-headers = Headers(dict(accept='application/json'))
-
 
 def assert_sentences(expected_sentences, response):
     actual_sentences = json.loads(response.data)['sentences']
-    assert_that(expected_sentences, only_contains(*actual_sentences))
+    assert_that(actual_sentences, only_contains(*expected_sentences))
 
 
 class SentenceApi(object):
     def __init__(self, client, host='localhost', port=5000):
         self.client = client
-        self.endpoint = URITemplate(('http://{}:{}/api/sentence'.format(host, port)) + '{/feature}{?count}')
+        self.endpoint = SentenceApi.sentence_endpoint(host, port)
+        self.headers = Headers(dict(accept='application/json'))
 
-    def get_sentences(self, feature, count=None):
-        url = self.endpoint.expand(feature=feature, count=count)
-        return self.client.get(url, headers=headers)
+    @staticmethod
+    def sentence_endpoint(host, port):
+        path = ('http://{}:{}/api/sentence'.format(host, port))
+        return URITemplate(path + '{/feature}{?count,max-words}')
+
+    def get_sentences(self, feature, count=None, max_words=None):
+        url = self.endpoint.expand({
+            'feature': feature,
+            'count': count,
+            'max-words': max_words
+        })
+        return self.client.get(url, headers=self.headers)
 
 
 class SentenceRepository(object):
@@ -40,9 +48,11 @@ class SentenceRepository(object):
 
     def add_all(self, sentences):
         for s in sentences:
+            sentence = s['sentence']
             self.add({
-                'sentence': s['sentence'],
-                'features': s['features'].split(',')
+                'sentence': sentence,
+                'features': s['features'].split(','),
+                'words': sentence.split(' ')
             })
 
     def template_sentence_document(self):
