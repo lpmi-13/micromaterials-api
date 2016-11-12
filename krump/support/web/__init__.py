@@ -24,6 +24,10 @@ METHOD_OPTIONS = 'OPTIONS'
 CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 
 
+def no_content():
+    return Response(status=204)
+
+
 # noinspection PyUnusedLocal
 def get_request_json(*args, **kwargs):
     return request.get_json(silent=True)
