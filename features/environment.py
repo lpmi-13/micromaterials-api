@@ -2,7 +2,8 @@
 
 from pymongo import MongoClient
 
-from features.sentences import SentenceRepository, SentenceApi
+from features.sentence.api import SentenceApi
+from features.sentence.db import SentenceRepository
 from krump import create_app, required_value
 
 
@@ -18,6 +19,7 @@ def before_feature(context, feature):
 # noinspection PyUnusedLocal
 def before_scenario(context, scenario):
     clean_db(context)
+    context.request_for_sentences = dict(feature=None, count=None, max_words=None)
 
 
 def clean_db(context):
@@ -31,7 +33,6 @@ def setup_api(app, context):
 def setup_db(app, context):
     mongo_client = create_mongo_client(app)
     app.mongo_client = mongo_client
-    context.mongo_client = mongo_client
     context.sentence_repository = sentence_repository(app)
 
 

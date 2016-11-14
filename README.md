@@ -7,6 +7,14 @@ _A REST-ful API For Words & Stuff_
 Read Adam's blog post
 [here](https://micromaterialsblog.wordpress.com/2016/10/08/scaling-for-the-future-an-api-for-micromaterials/).
 
+# Setup
+
+```bash
+$ virtualenv .venv
+$ source .venv/Scripts/activate
+$ pip install
+```
+
 # Running The Application
 
 ```bash
@@ -15,14 +23,23 @@ $ python wsgi.py
 
 # Running The Tests
 
-Unit tests:
+## Unit Tests
 
 ```bash
 $ nosetests
 ```
 
-Functional tests:
+## Functional Tests
+
+> Note: these tests require a running MongoDB instance.
 
 ```bash
 $ behave
+```
+
+> The MongoDB instance defaults one running on `localhost`
+> but you can change this in the `settings.yml` file.
+
+```bash
+$ MONGO_URL: '<insert the URL of your MongoDB instance here>'
 ```

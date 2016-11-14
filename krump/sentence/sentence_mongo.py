@@ -1,19 +1,32 @@
 # -*- coding: utf-8 -*-
+import logging
 
 from flask import current_app
 
 from krump import required_value
 from krump.support.collections import pluck
 
+FIELDS_TO_PROJECT = dict(sentence=1, _id=0)
+
+_logger = logging.getLogger(__name__)
+
 
 def get_sentences(request):
-    query = {}
+    _logger.debug('Getting sentences for [%s].', request)
+    return map(pluck('sentence'), sentences()
+               .find(to_query(request), FIELDS_TO_PROJECT)
+               .limit(request['count']))
+
+
+def to_query(request):
+    query = {'features': request['feature']}
 
     maximum_words = request.get('maximum_words', None)
     if maximum_words is not None:
         query['$where'] = 'this.words.length <= {}'.format(maximum_words)
 
-    return list(map(pluck('sentence'), sentences().find(query).limit(request['count'])))
+    _logger.debug('Request is [%s], MongoDB query is [%s].', request, query )
+    return query
 
 
 def sentences():

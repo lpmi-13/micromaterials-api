@@ -14,3 +14,7 @@ def assert_status_code(expected_status_code, response):
 
 def assert_status_code_ok(response):
     assert_status_code(200, response)
+
+
+def assert_status_code_no_content(response):
+    assert_status_code(204, response)

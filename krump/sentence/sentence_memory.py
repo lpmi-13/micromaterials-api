@@ -14,7 +14,7 @@ database = dict(
 
 
 def get_sentences(request):
-    sentences = database[request['inclusion']]
+    sentences = database[request['feature']]
     if request['maximum_words'] is not None:
         sentences = [sentence for sentence in sentences if
                      len(sentence.split(' ')) <= request['maximum_words']]
