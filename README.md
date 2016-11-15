@@ -43,3 +43,9 @@ $ behave
 ```bash
 $ MONGO_URL: '<insert the URL of your MongoDB instance here>'
 ```
+
+## Layout
+
+* `krump` :: the application source code.
+* `test` :: unit tests for the above source code.
+* `cukes` :: BDD tests for the application using [Behave](http://pythonhosted.org/behave/).

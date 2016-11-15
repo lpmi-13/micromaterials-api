@@ -3,7 +3,7 @@
 from uritemplate import URITemplate
 from werkzeug.datastructures import Headers
 
-from features import _api_path
+from cukes import _api_path
 
 
 class SentenceApi(object):
