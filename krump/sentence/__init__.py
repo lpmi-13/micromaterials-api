@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+
 import logging
-from flask import Blueprint, request
+from flask import Blueprint, request as flask_request
 
 from krump import no_content
 from krump import route
-from krump.sentence.sentence_mongo import get_sentences
+from krump.sentence.sentence import get_sentences
 from krump.sentence.to_request import to_request_for_sentences as to_request
 from krump.support.collections import has_elements
 
@@ -27,8 +28,12 @@ def get_sentence(feature):
     :param feature: what type of sentences are to be returned.
     :return: 200 OK application/json, the sentences
     """
+
     _logger.debug('Getting sentences for [%s].', feature)
-    sentences = get_sentences(to_request(request, feature))
+
+    request = to_request(flask_request, feature)
+    sentences = get_sentences(request)
+
     if has_elements(sentences):
         return 'sentence', dict(sentences=sentences)
     else:
