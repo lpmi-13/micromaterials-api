@@ -3,7 +3,7 @@
 # noinspection PyUnresolvedReferences
 from behave import *
 
-from cukes.sentence import assert_sentences
+from cukes.sentence import *
 from cukes.sentence.api import request_sentence_with
 from cukes.steps import *
 from krump.support.collections import pluck
@@ -17,7 +17,13 @@ def these_sentences_exist(context):
 @then("these sentences are returned")
 def these_sentences_are_returned(context):
     assert_status_code_ok(context.response)
-    assert_sentences(map(pluck('sentence'), context.table), context.response)
+    assert_response(map(pluck('sentence'), context.table), context.response)
+
+
+@then("these sentences are returned for the '(?P<feature>.+?)' feature")
+def these_sentences_are_returned(context, feature):
+    assert_status_code_ok(context.response)
+    assert_response_for_feature(map(pluck('sentence'), context.table), feature, context.response)
 
 
 @given("no sentences exist")
