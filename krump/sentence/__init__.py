@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import logging
+
 from flask import Blueprint, request as flask_request
 
 from krump import no_content
 from krump import route
-from krump.sentence.sentence import get_sentences
+from krump.sentence.mongo import get_sentences as sentences_for
 from krump.sentence.to_request import to_request_for_sentences as to_request
 from krump.support.collections import has_elements
 
@@ -32,9 +33,11 @@ def get_sentence(feature):
     _logger.debug('Getting sentences for [%s].', feature)
 
     request = to_request(flask_request, feature)
-    sentences = get_sentences(request)
 
-    if has_elements(sentences):
-        return 'sentence', dict(sentences=sentences)
-    else:
+    sentences = sentences_for(request)
+
+    if not has_elements(sentences):
         return no_content()
+
+    return 'sentence', dict(sentences=sentences,
+                            feature=request['feature'])

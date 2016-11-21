@@ -15,7 +15,7 @@ def get_sentences(request):
     query = to_query(request)
 
     sentences = sentences_collection() \
-        .find(query, dict(sentence=1, _id=0)) \
+        .find(query, dict(sentence=1, words=1, _id=0)) \
         .limit(request['count'])
 
     return list(sentences)

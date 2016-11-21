@@ -8,7 +8,7 @@ Feature: Get sentences
 			| The cat has a hat     | article    |
 		And we want sentences with the 'apostrophe' feature
 		When we request sentences
-		Then these sentences are returned
+		Then these sentences are returned for the 'apostrophe' feature
 			| sentence              |
 			| Adam's car is lovely. |
 
@@ -22,7 +22,7 @@ Feature: Get sentences
 		And we want 1 sentence
 		And we want a sentence with the 'apostrophe' feature
 		When we request sentences
-		Then these sentences are returned
+		Then these sentences are returned for the 'apostrophe' feature
 			| sentence              |
 			| Adam's car is lovely. |
 
@@ -37,7 +37,7 @@ Feature: Get sentences
 		And we want sentences with the 'apostrophe' feature
 		And we want sentences with a maximum of 9 words
 		When we request sentences
-		Then these sentences are returned
+		Then these sentences are returned for the 'apostrophe' feature
 			| sentence                                    |
 			| Adam's car is lovely.                       |
 			| Adam's goat cheese pancakes are to die for. |
