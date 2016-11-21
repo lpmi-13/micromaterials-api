@@ -12,4 +12,3 @@ def filter_module(package_name, package_path, predicate):
             item = getattr(module, item)
             if predicate(item):
                 yield (item, module)
-

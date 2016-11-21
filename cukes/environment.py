@@ -19,7 +19,8 @@ def before_feature(context, feature):
 # noinspection PyUnusedLocal
 def before_scenario(context, scenario):
     clean_db(context)
-    context.request_for_sentences = dict(feature=None, count=None, max_words=None)
+    context.request_for_sentences = dict(
+        feature=None, word=None, count=None, max_words=None)
 
 
 def clean_db(context):

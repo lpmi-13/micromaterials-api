@@ -19,10 +19,19 @@ class SentenceRepository(object):
     def add_all(self, sentences):
         for s in sentences:
             sentence = s['sentence']
+            features = s['features'].split(',')
+
+            if s.get('pos', None) is not None:
+                pos = s['pos'].split(',')
+                words = [self.to_word_dictionary(word, pos[index]) for index, word in
+                         enumerate(sentence.split(' '))]
+            else:
+                words = map(self.to_word_dictionary, sentence.split(' '))
+
             self.add({
                 'sentence': sentence,
-                'features': s['features'].split(','),
-                'words': map(self.to_word, sentence.split(' '))
+                'features': features,
+                'words': words
             })
 
     def to_document(self, sentence):
@@ -43,5 +52,5 @@ class SentenceRepository(object):
         }
 
     @staticmethod
-    def to_word(word):
-        return dict(original=word, lemma=None, pos=None)
+    def to_word_dictionary(word, pos=None):
+        return dict(original=word, lemma=None, pos=pos)

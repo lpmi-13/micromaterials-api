@@ -29,9 +29,8 @@ def to_maximum_words(raw_maximum_words):
     return None if raw_maximum_words is None else to_bounded_int(None, MAXIMUM_WORDS, raw_maximum_words)
 
 
-def to_request_for_sentences(request, feature):
+def to_request_for_sentences(request, **kwargs):
     return dict(
-        feature=feature,
+        kwargs,
         count=to_count(request.args.get(PARAMETER_COUNT, DEFAULT_COUNT)),
-        maximum_words=to_maximum_words(request.args.get(PARAMETER_MAXIMUM_WORDS, None))
-    )
+        maximum_words=to_maximum_words(request.args.get(PARAMETER_MAXIMUM_WORDS, None)))

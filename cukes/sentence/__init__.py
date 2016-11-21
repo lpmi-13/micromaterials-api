@@ -23,9 +23,17 @@ def assert_response_for_feature(expected_sentences, expected_feature, response):
     assert_sentences(expected_sentences, response_data)
 
 
+# noinspection PyUnusedLocal
+def assert_response_for_word(expected_sentences, expected_word, response):
+    assert_sentences(expected_sentences, data_from(response))
+
+
 def assert_sentences(expected_sentences, response_data):
-    actual_sentences = map(pluck('sentence'), response_data['sentences'])
-    assert_that(actual_sentences, only_contains(*expected_sentences))
+    assert_that(actual_sentences_from(response_data), only_contains(*expected_sentences))
+
+
+def actual_sentences_from(response_data):
+    return map(pluck('sentence'), response_data['sentences'])
 
 
 def data_from(response):
