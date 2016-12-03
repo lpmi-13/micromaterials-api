@@ -5,32 +5,15 @@ Web- and Flask-related extensions.
 
 from httplib import OK
 
-from flask import request, current_app
+from flask import current_app
 from werkzeug.wrappers import Response
 
 from krump.support import KrumpException
 from krump.support.strings import is_stringy, has_text
 
-HEADER_LOCATION = 'Location'
-HEADER_CONTENT_TYPE = 'Content-Type'
-
-METHOD_GET = 'GET'
-METHOD_PUT = 'PUT'
-METHOD_POST = 'POST'
-METHOD_PATCH = 'PATCH'
-METHOD_DELETE = 'DELETE'
-METHOD_OPTIONS = 'OPTIONS'
-
-CONTENT_TYPE_APPLICATION_JSON = 'application/json'
-
 
 def no_content():
     return Response(status=204)
-
-
-# noinspection PyUnusedLocal
-def get_request_json(*args, **kwargs):
-    return request.get_json(silent=True)
 
 
 def current_environment(app=current_app):
@@ -44,6 +27,7 @@ def current_environment(app=current_app):
     @return: the current environment; never C{None}.
     """
 
+    # noinspection SpellCheckingInspection
     return app.config.get('ENVIORNMENT', 'DEVELOPMENT')  # typo intentional
 
 

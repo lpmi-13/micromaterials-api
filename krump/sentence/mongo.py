@@ -6,23 +6,43 @@ from flask import current_app
 
 from krump import required_value
 
+PROJECT = 1
+DO_NOT_PROJECT = 0
+
 _logger = logging.getLogger(__name__)
 
 
-def get_sentences(request):
-    _logger.debug('Getting sentences for [%s].', request)
-
-    query = to_query(request)
-
-    sentences = sentences_collection() \
-        .find(query, dict(sentence=1, words=1, _id=0)) \
-        .limit(request['count'])
-
-    return list(sentences)
+def get_sentences_with_feature(request):
+    query = to_query_for_feature(request)
+    return _get_sentences(request, query)
 
 
-def to_query(request):
-    query = {'features': request['feature']}
+def get_sentences_containing_word(request):
+    query = to_query_for_word(request)
+    return _get_sentences(request, query)
+
+
+def to_query_for_feature(request):
+    return _to_query(request, {'features': request['feature']})
+
+
+def to_query_for_word(request):
+    if request.get('pos', None) is None:
+        query = {'words.original': request['word']}
+    else:
+        query = {
+            'words': {
+                '$elemMatch': {
+                    'pos': request['pos'],
+                    'original': request['word']
+                }
+            }
+        }
+    return _to_query(request, query)
+
+
+def _to_query(request, other):
+    query = dict(other)
 
     maximum_words = request.get('maximum_words', None)
     if maximum_words is not None:
@@ -30,6 +50,21 @@ def to_query(request):
 
     _logger.debug('Request is [%s], MongoDB query is [%s].', request, query)
     return query
+
+
+def _get_sentences(request, query):
+    _logger.debug('Getting sentences for [%s].', request)
+
+    projections = dict(sentence=PROJECT,
+                       words=PROJECT,
+                       _id=DO_NOT_PROJECT
+                       # add further fields such as POStags to project them
+                       )
+    sentences = sentences_collection() \
+        .find(query, projections) \
+        .limit(request['count'])
+
+    return list(sentences)
 
 
 def sentences_collection():

@@ -3,7 +3,7 @@
 from uritemplate import URITemplate
 from werkzeug.datastructures import Headers
 
-from cukes import _api_path
+from cukes import api_path
 
 
 class SentenceApi(object):
@@ -14,20 +14,34 @@ class SentenceApi(object):
 
     def __init__(self, client, host='localhost', port=5000):
         self.client = client
-        self.endpoint = self.endpoint_for_sentence(_api_path(host, port))
+        self._api_path = api_path(host, port)
         self.headers = Headers(dict(accept='application/json'))
 
-    def get_sentences(self, feature, count=None, max_words=None):
-        url = self.endpoint.expand({
-            'feature': feature,
-            'count': count,
-            'max-words': max_words
-        })
-        return self.client.get(url, headers=self.headers)
+    def get_sentences(self, request):
+        expansions = {
+            'count': request.get('count', None),
+            'max-words': request.get('max_words', None)
+        }
 
-    @staticmethod
-    def endpoint_for_sentence(api_path):
-        return URITemplate(api_path + '/sentence{/feature}{?count,max-words}')
+        if request.get('feature', None) is not None:
+            template = '/sentence{/feature}{?count,max-words}'
+            expansions.update(feature=request['feature'])
+
+        elif request.get('word', None) is not None:
+            if request.get('pos', None) is not None:
+                template = '/sentence/word{/word}/pos{/pos}{?count,max-words}'
+                expansions.update(word=request['word'], pos=request['pos'])
+
+            else:
+                template = '/sentence/word{/word}{?count,max-words}'
+                expansions.update(word=request['word'])
+
+        else:
+            raise NotImplementedError()
+
+        endpoint = URITemplate(self._api_path + template)
+        url = endpoint.expand(expansions)
+        return self.client.get(url, headers=self.headers)
 
 
 def request_sentence_with(request, **kwargs):

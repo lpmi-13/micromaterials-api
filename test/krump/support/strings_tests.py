@@ -2,8 +2,7 @@
 
 import unittest
 
-from krump.support.strings import UnknownEncodingException
-from krump.support.strings import safe_string, is_stringy, has_text
+from krump.support.strings import is_stringy, has_text
 
 
 class StringsTests(unittest.TestCase):
@@ -18,25 +17,6 @@ class StringsTests(unittest.TestCase):
 
     def test_is_stringy_with_other_object(self):
         self.assertFalse(is_stringy([]))
-
-    def test_safe_string_with_regular_string(self):
-        expected_value = 'There Can Be Only One'
-        value = safe_string(expected_value)
-        self.assertEqual(expected_value, value)
-
-    def test_safe_string_with_regular_string_does_trim_whitespace(self):
-        expected_value = 'There Can Be Only One'
-        value = safe_string('   {} \t   '.format(expected_value))
-        self.assertEqual(expected_value, value)
-
-    def test_safe_string_with_none(self):
-        expected_value = ''
-        value = safe_string(None)
-        self.assertEqual(expected_value, value)
-
-    def test_safe_string_with_bogus_encoding(self):
-        self.assertRaises(UnknownEncodingException,
-                          lambda: safe_string('whatever', 'Not an encoding.'))
 
     def test_has_text_with_none(self):
         self.assertFalse(has_text(None))

@@ -38,11 +38,7 @@ def no_sentences_are_returned(context):
 
 @when("we request sentences")
 def request_sentences(context):
-    request = context.request_for_sentences
-    context.response = context.sentence_api.get_sentences(
-        request['feature'],
-        count=request['count'],
-        max_words=request['max_words'])
+    context.response = context.sentence_api.get_sentences(context.request_for_sentences)
 
 
 def request_for_sentences(context, **kwargs):
@@ -65,3 +61,14 @@ def request_sentence_with_feature(context, feature):
 @step("we want sentences with a maximum of (?P<max_words>\d+?) words")
 def request_sentence_with_max_words(context, max_words):
     request_for_sentences(context, max_words=max_words)
+
+
+@step("we want a sentence containing the word '(?P<word>.+?)'")
+@step("we want sentences containing the word '(?P<word>.+?)'")
+def request_sentence_containing_word(context, word):
+    request_for_sentences(context, word=word)
+
+
+@step("we want sentences with the word '(?P<word>.+?)' as a '(?P<pos>.+?)'")
+def request_sentence_containing_word_of_type(context, word, pos):
+    request_for_sentences(context, word=word, pos=pos)

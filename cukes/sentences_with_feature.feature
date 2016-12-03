@@ -1,4 +1,5 @@
-Feature: Get sentences
+@feature
+Feature: Get sentences with specific features
 
 	Scenario: We can get sentences for a particular feature
 
@@ -26,7 +27,6 @@ Feature: Get sentences
 			| sentence              |
 			| Adam's car is lovely. |
 
-
 	Scenario: We can limit sentences by maximum number of words
 
 		Given these sentences exist
@@ -43,7 +43,7 @@ Feature: Get sentences
 			| Adam's goat cheese pancakes are to die for. |
 
 
-	Scenario: No sentences found at all
+	Scenario: No sentences exist
 
 		Given no sentences exist
 		And we want sentences with the 'apostrophe' feature
@@ -51,7 +51,7 @@ Feature: Get sentences
 		Then no sentences are returned
 
 
-	Scenario: No sentences found for feature
+	Scenario: No sentences have the desired feature
 
 		Given these sentences exist
 			| sentence              | features   |
