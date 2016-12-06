@@ -54,4 +54,7 @@ $ MONGO_URL: '<insert the URL of your MongoDB instance here>'
 
 Once the DB is populated and the application is running, endpoint calls can be made like so:
 http://(SERVER_IP_ADDRESS)/api/sentence/apostrophe
-to return 10 sentences with apostrophes
+- to return 10 sentences with apostrophes
+
+http://(SERVER_IP_ADDRESS)/api/sentence/word/analysis
+- to return 10 sentences with the word 'analysis', if they are available
