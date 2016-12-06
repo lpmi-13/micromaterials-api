@@ -49,3 +49,9 @@ $ MONGO_URL: '<insert the URL of your MongoDB instance here>'
 * `krump` :: the application source code.
 * `test` :: unit tests for the above source code.
 * `cukes` :: BDD tests for the application using [Behave](http://pythonhosted.org/behave/).
+
+## Serving from an endpoint
+
+Once the DB is populated and the application is running, endpoint calls can be made like so:
+http://(SERVER_IP_ADDRESS)/api/sentence/apostrophe
+to return 10 sentences with apostrophes
