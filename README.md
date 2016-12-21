@@ -50,26 +50,42 @@ $ MONGO_URL: '<insert the URL of your MongoDB instance here>'
 * `test` :: unit tests for the above source code.
 * `cukes` :: BDD tests for the application using [Behave](http://pythonhosted.org/behave/).
 
-## Serving from an endpoint
+## Serving Sentences
 
-Once the DB is populated and the application is running, endpoint calls can be made like so:
-...for sentences with given features (more or less analogous to parts of speech/word classes)
-http://(SERVER_IP_ADDRESS)/api/sentence/apostrophe
-- to return 10 sentences with apostrophes
+> This next bit assumes that the DB is populated and the application is running.
 
-other features currently supported are the following:
- - simple_past
- - non_third_person_singular_simple_present
- - third_person_singular_simple_present
- - present_participle
- - past_participle
- - article
- - singular_noun
- - plural_noun
- - wh_determiner
- - comparative_adjective
- - superlative_adjective
+To get sentences with a specific feature:
 
-...for sentences with specific words
-http://(SERVER_IP_ADDRESS)/api/sentence/word/analysis
-- to return 10 sentences with the word 'analysis', if they are available
+```
+http://<SERVER_IP_ADDRESS:PORT>/api/sentence/<FEATURE>
+```
+
+> Currently _only_ JSON responses are supported: clients _must_ supply an
+`ACCEPT` header value of `application/json`.
+
+If there are no sentences with the desired feature in the underlying DB, then a
+`204 NO CONTENT` response will be returned.
+
+`FEATURE` might be `apostrophe` -- to get sentences with apostrophes -- or one
+of the features listed below.
+
+ - `simple_past`
+ - `non_third_person_singular_simple_present`
+ - `third_person_singular_simple_present`
+ - `present_participle`
+ - `past_participle`
+ - `article`
+ - `singular_noun`
+ - `plural_noun`
+ - `wh_determiner`
+ - `comparative_adjective`
+ - `superlative_adjective`
+
+```bash
+curl -XGET -H 'Accept: application/json' http://localhost:9000/api/sentence/apostrophe
+```
+
+The API also supports two query parameters:
+
+ - `count` : the number of sentences to be returned. (Default `10`.)
+ - `max-words` : the maximum number of words in sentences returned. (Default `100`.)
