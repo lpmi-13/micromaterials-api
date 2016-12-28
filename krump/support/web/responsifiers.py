@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from httplib import UNSUPPORTED_MEDIA_TYPE
 
-from flask import request, jsonify
+from flask import request, jsonify, render_template, make_response
 from werkzeug.datastructures import MIMEAccept
 from werkzeug.exceptions import abort
 from werkzeug.http import parse_accept_header
 
-from krump.support.collections import has_elements
+from krump.support.collections import has_elements, copy_and_update
 
 
 class SimpleJsonResponsifier(object):
@@ -18,6 +18,28 @@ class SimpleJsonResponsifier(object):
     def responsify(self, *args, **kwargs):
         view_model = args[0]
         return jsonify(**view_model)
+
+
+class TemplatedResponsifier(object):
+    """
+    Create a C{Response} by rendering a (Jinja2) template.
+    """
+
+    def responsify(self, *args, **kwargs):
+        view = self.view_resolver.resolve_view(*args, **kwargs)
+        view_model = self.view_model(*args, **kwargs)
+        content = render_template(view, **view_model)
+        return make_response(content)
+
+    # noinspection PyMethodMayBeStatic
+    def view_model(self, *args, **kwargs):
+        return copy_and_update(args[0], **kwargs)
+
+    def __init__(self, view_resolver):
+        super(TemplatedResponsifier, self).__init__()
+
+        assert view_resolver, 'The view resolver is required.'
+        self.view_resolver = view_resolver
 
 
 class ContentNegotiatingResponsifier(object):

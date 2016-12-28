@@ -10,3 +10,12 @@ def has_elements(l):
 
 def pluck(field):
     return lambda s: s[field]
+
+
+def copy_and_update(source, **updates):
+    assert source is not None, 'The source is required.'
+
+    result = source.copy()
+    if updates:
+        result.update(updates)
+    return result
