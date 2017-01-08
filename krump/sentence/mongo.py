@@ -62,7 +62,8 @@ def _get_sentences(request, query):
                        )
     sentences = sentences_collection() \
         .find(query, projections) \
-        .limit(request['count'])
+        .limit(request['count']) \
+	.sort({'$natural:-1'})
 
     return list(sentences)
 
