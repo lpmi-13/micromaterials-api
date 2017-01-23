@@ -84,6 +84,11 @@ of the features listed below.
 ```bash
 curl -XGET -H 'Accept: application/json' http://localhost:9000/api/sentence/apostrophe
 ```
+To get sentences with a specific word (if present in the database):
+
+```
+http://<SERVER_IP_ADDRESS:PORT>/api/sentence/word/<WORD>
+```
 
 The API also supports two query parameters:
 
