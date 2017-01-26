@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
 PARAMETER_COUNT = 'count'
+PARAMETER_SKIP = 'skip'
 PARAMETER_MAXIMUM_WORDS = 'max-words'
 
 DEFAULT_COUNT = 10
+DEFAULT_SKIP = 0
+MAXIMUM_SKIP = 100
 MAXIMUM_WORDS = 100
 MAXIMUM_COUNT = 1000
 
@@ -28,9 +31,12 @@ def to_count(raw_count):
 def to_maximum_words(raw_maximum_words):
     return None if raw_maximum_words is None else to_bounded_int(None, MAXIMUM_WORDS, raw_maximum_words)
 
+def to_skip(raw_skip_count):
+    return to_bounded_int(DEFAULT_SKIP, MAXIMUM_SKIP, raw_skip_count)
 
 def to_request_for_sentences(request, **kwargs):
     return dict(
         kwargs,
         count=to_count(request.args.get(PARAMETER_COUNT, DEFAULT_COUNT)),
-        maximum_words=to_maximum_words(request.args.get(PARAMETER_MAXIMUM_WORDS, None)))
+        maximum_words=to_maximum_words(request.args.get(PARAMETER_MAXIMUM_WORDS, None)),
+        skip=to_skip(request.args.get(PARAMETER_SKIP, DEFAULT_SKIP)))
