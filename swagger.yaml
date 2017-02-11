@@ -1,0 +1,355 @@
+---
+swagger: '2.0'
+
+info:
+  version: 0.2.0
+  title: Micromaterials API
+  description: An API to serve text-based resources for creation of digital EFL learning materials
+
+schemes:
+  - https
+host: micromaterials.org
+basePath: /api/sentence
+
+paths:
+
+  /modal:
+    get:
+      produces:
+        - "application/json"
+      summary: get sentences with modals
+      description: |
+        get a list of sentences that each have at least one modal form (eg,
+        "would", "can", "might").
+      parameters:
+        - $ref: "#/parameters/count"
+        - $ref: "#/parameters/max-words"
+        - $ref: "#/parameters/skip"
+
+      responses:
+        200:
+          description: a list of sentences
+          schema:
+            $ref: "#/definitions/sentences"
+
+  /simple_past:
+    get:
+      produces:
+        - "application/json"
+      summary: get sentences with simple past forms
+      description: |
+        get a list of sentences that each have at least one simple past
+        form (eg, "ate", "went", "wanted").
+      parameters:
+        - $ref: "#/parameters/count"
+        - $ref: "#/parameters/max-words"
+        - $ref: "#/parameters/skip"
+      
+      responses:
+        200:
+          description: a list of sentences
+          schema:
+            $ref: "#/definitions/sentences"
+
+  /non_third_person_singular_simple_present:
+    get:
+      produces:
+        - "application/json"
+      summary: get sentences with simple present forms (but not third person)
+      description: |
+        get a list of sentences that each have at least one non-third-person simple
+        present tense verb (eg, "eat", "go", "want").
+      parameters:
+        - $ref: "#/parameters/count"
+        - $ref: "#/parameters/max-words"
+        - $ref: "#/parameters/skip"
+      
+      responses:
+        200:
+          description: a list of sentences
+          schema:
+            $ref: "#/definitions/sentences"
+            
+  /third_person_singular_simple_present:
+    get:
+      produces:
+        - "application/json"
+      summary: get sentences with third person simple present forms
+      description: |
+        get a list of sentences that each have at least one third-person simple
+        present tense verb (eg, "eats", "goes", "wants").
+      parameters:
+        - $ref: "#/parameters/count"
+        - $ref: "#/parameters/max-words"
+        - $ref: "#/parameters/skip"
+      
+      responses:
+        200:
+          description: a list of sentences
+          schema:
+            $ref: "#/definitions/sentences"
+            
+  /present_participle:
+    get:
+      produces:
+        - "application/json"
+      summary: get sentences with present participle forms
+      description: |
+        get a list of sentences that each have at least one present participle
+        form (eg, "eating", "going", "wanting").
+      parameters:
+        - $ref: "#/parameters/count"
+        - $ref: "#/parameters/max-words"
+        - $ref: "#/parameters/skip"
+        
+      responses:
+        200:
+          description: a list of sentences
+          schema:
+            $ref: "#/definitions/sentences"
+            
+  /past_participle:
+    get:
+      produces:
+        - "application/json"
+      summary: get sentences with past participle forms
+      description: |
+        get a list of sentences that each have at least one past participle
+        form (eg, "eaten", "gone", "wanted").
+      parameters:
+        - $ref: "#/parameters/count"
+        - $ref: "#/parameters/max-words"
+        - $ref: "#/parameters/skip"
+      
+      responses:
+        200:
+          description: a list of sentences
+          schema:
+            $ref: "#/definitions/sentences"
+            
+  /article:
+    get:
+      produces:
+        - "application/json"
+      summary: get sentences with articles
+      description: |
+        get a list of sentences that each have at least one article (ie, "the",
+        "a", "an").
+      parameters:
+        - $ref: "#/parameters/count"
+        - $ref: "#/parameters/max-words"
+        - $ref: "#/parameters/skip"
+      
+      responses:
+        200:
+          description: a list of sentences
+          schema:
+            $ref: "#/definitions/sentences"
+            
+  /singular_noun:
+    get:
+      produces:
+        - "application/json"
+      summary: get sentences with singular nouns
+      description: |
+        get a list of sentences that each have at least one singular noun
+        (eg, "person", "house", "chair").
+      parameters:
+        - $ref: "#/parameters/count"
+        - $ref: "#/parameters/max-words"
+        - $ref: "#/parameters/skip"
+        
+      responses:
+        200:
+          description: a list of sentences
+          schema:
+            $ref: "#/definitions/sentences"
+            
+  /plural_noun:
+    get:
+      produces:
+        - "application/json"
+      summary: get sentences with plural nouns
+      description: |
+        get a list of sentences that each have at least one plural noun
+        (eg, "people", "houses", "chairs").
+      parameters:
+        - $ref: "#/parameters/count"
+        - $ref: "#/parameters/max-words"
+        - $ref: "#/parameters/skip"
+        
+      responses:
+        200:
+          description: a list of sentences
+          schema:
+            $ref: "#/definitions/sentences"
+            
+  /wh_determiner:
+    get:
+      produces:
+        - "application/json"
+      summary: get sentences with WH- determiners
+      description: |
+        get a list of sentences that each have at least one WH- determiner
+        form (eg, "She asked a question **that** would doom my immortal soul
+        forever").
+      parameters:
+        - $ref: "#/parameters/count"
+        - $ref: "#/parameters/max-words"
+        - $ref: "#/parameters/skip"
+        
+      responses:
+        200:
+          description: a list of sentences
+          schema:
+            $ref: "#/definitions/sentences"
+            
+  /comparative_adjective:
+    get:
+      produces:
+        - "application/json"
+      summary: get sentences with comparative adjectives
+      description: |
+        get a list of sentences that each have at least one comparative
+        adjective form (eg, "better", "faster", "higher").
+      parameters:
+        - $ref: "#/parameters/count"
+        - $ref: "#/parameters/max-words"
+        - $ref: "#/parameters/skip"
+      
+      responses:
+        200:
+          description: a list of sentences
+          schema:
+            $ref: "#/definitions/sentences"
+            
+  /superlative_adjective:
+    get:
+      produces:
+        - "application/json"
+      summary: get sentences with superlative adjectives
+      description: |
+        get a list of sentences that each have at least one superlative
+        adjective form (eg, "best", "fastest", "highest").
+      parameters:
+        - $ref: "#/parameters/count"
+        - $ref: "#/parameters/max-words"
+        - $ref: "#/parameters/skip"
+      
+      responses:
+        200:
+          description: a list of sentences
+          schema:
+            $ref: "#/definitions/sentences"
+            
+  /apostrophe:
+    get:
+      produces:
+        - "application/json"
+      summary: get sentences with apostrophes
+      description: |
+        get a list of sentences that each have at least one apostrophe
+        (eg, "it's", "students'", "they're").
+      parameters:
+        - $ref: "#/parameters/count"
+        - $ref: "#/parameters/max-words"
+        - $ref: "#/parameters/skip"
+        
+      responses:
+        200:
+          description: a list of sentences
+          schema:
+            $ref: "#/definitions/sentences"
+
+  /word/{word}:
+    parameters:
+      - $ref: "#/parameters/word"
+    get:
+      produces:
+        - "application/json"
+      summary: get sentences containing specific words
+      description: |
+        get a list of sentences that each have at least one occurence of
+        the specified word.
+      parameters:
+        - $ref: "#/parameters/count"
+        - $ref: "#/parameters/max-words"
+      responses:
+        200:
+          description: A list of sentences
+          schema:
+            $ref: "#/definitions/sentencesWithWord"
+              
+
+definitions:
+  sentences:
+    type: object
+    properties:
+      feature:
+        type: string
+      sentences:
+        type: array
+        items:
+          properties:
+            sentence:
+              type: string
+            words:
+              type: array
+              items:
+                properties:
+                  word:
+                    type: string
+                  lemma:
+                    type: string
+                  pos:
+                    type: string
+  sentencesWithWord:
+    type: object
+    properties:
+      word:
+        type: string
+      sentences:
+        type: array
+        items:
+          properties:
+            sentence:
+              type: string
+            words:
+              type: array
+              items:
+                properties:
+                  word:
+                    type: string
+                  lemma:
+                    type: string
+                  pos:
+                    type: string
+
+parameters:
+  count:
+    name: count
+    in: query
+    description: number of sentences
+    required: false
+    type: number
+    default: 10
+  max-words:
+    name: max-words
+    in: query
+    description: maximum number of words in sentences returned
+    required: false
+    type: number
+    default: 100
+  skip:
+    name: skip
+    in: query
+    description: used with **count**, pages to the next [skip * count] results for a given query
+    required: false
+    type: number
+  word:
+    name: word
+    in: path
+    description: the word you want in the sentences
+    required: true
+    type: string
+  
