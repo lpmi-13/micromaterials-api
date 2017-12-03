@@ -9,8 +9,8 @@ Read Adam's blog post
 
 ```bash
 $ virtualenv .venv
-$ source .venv/Scripts/activate
-$ pip install
+$ source .venv/bin/activate
+$ pip install -r requirements.txt
 ```
 
 # Running The Application
