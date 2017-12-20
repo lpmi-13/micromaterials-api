@@ -88,7 +88,9 @@ To get sentences with a specific word (if present in the database):
 http://<SERVER_IP_ADDRESS:PORT>/api/sentence/word/<WORD>
 ```
 
-The API also supports two query parameters:
+The API also supports three query parameters:
 
  - `count` : the number of sentences to be returned. (Default `10`.)
  - `max-words` : the maximum number of words in sentences returned. (Default `100`.)
+
+ - `skip` : skips the given number of sentences in the response.
