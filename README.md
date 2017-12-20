@@ -93,4 +93,4 @@ The API also supports three query parameters:
  - `count` : the number of sentences to be returned. (Default `10`.)
  - `max-words` : the maximum number of words in sentences returned. (Default `100`.)
 
- - `skip` : skips the given number of sentences in the response.
+ - `skip` : allows paging and returns the next (skip * count) sentences in the response.
