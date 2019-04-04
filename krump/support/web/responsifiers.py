@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from httplib import UNSUPPORTED_MEDIA_TYPE
+from http.client import UNSUPPORTED_MEDIA_TYPE
 
 from flask import request, jsonify, render_template, make_response
 from werkzeug.datastructures import MIMEAccept

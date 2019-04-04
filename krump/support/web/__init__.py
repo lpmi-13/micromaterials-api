@@ -3,7 +3,7 @@
 Web- and Flask-related extensions.
 """
 
-from httplib import OK
+from http.client import OK
 
 from flask import current_app
 from werkzeug.wrappers import Response

@@ -3,12 +3,12 @@
 import logging
 from functools import wraps
 
-from krump.support import factory
-from krump.support.web import *
-from krump.support.web.filters import json_pretty
-from krump.support.web.responsifiers import ContentNegotiatingResponsifier, \
+from .support import factory
+from .support.web import *
+from .support.web.filters import json_pretty
+from .support.web.responsifiers import ContentNegotiatingResponsifier, \
     SimpleJsonResponsifier, TemplatedResponsifier
-from support.web.resolvers import SimpleSuffixBasedViewResolver
+from .support.web.resolvers import SimpleSuffixBasedViewResolver
 
 STRICT_SLASHES = 'strict_slashes'
 
