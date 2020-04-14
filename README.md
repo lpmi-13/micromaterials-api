@@ -1,3 +1,7 @@
+# Micromaterials API
+**Note: this is no longer in production, and exists only as a module for providing
+an endpoint for micromaterials to consume**
+
 [![Such Totes!](https://img.shields.io/badge/such-totes-purple.svg)](https://micromaterialsblog.wordpress.com/)
 
 _A REST-ful API For Words & Stuff_
